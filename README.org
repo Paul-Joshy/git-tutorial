@@ -1,0 +1,212 @@
+#+title: Git tutorial
+
+* Lesson 1
+** Introduction
+
+Git is a tool built to manage different versions of your code, but it can do way more than that. But it all starts from knowing these basic terms.
+
+*Directory:* This is how nerds call folders on your computer.
+
+*Git Repository:* This is a Directory that is maintained by git. It can also be called as a repo.
+
+*Command-line*: This is where you you type your git commands. Although there are slight differences, people also use the term *terminal*, *shell*, *command-prompt* interchangeably for the same thing. In windows, you can use Command Prompt, Powershell, or the git bash to execute these commands.
+
+
+Alright that should do for now. It's time to get your hands dirty!
+** Installation and Setup
+
+Git can be installed on most operating systems including Linux, MacOS and Windows.
+
+*** Windows
+
+You can download it from the [[https://git-scm.com/download/win][Official website]].
+
+Here's a good [[https://www.youtube.com/watch?v=2j7fD92g-gE][turorial]] that'll help you with the installation if you're stuck.
+** Creating your first git repository
+
+Now that we have our git set up, it's time to create your first repository.
+
+You can go to an existing directory or create a new one by typing
+
+#+BEGIN_SRC bash
+mkdir <directory_name
+#+END_SRC
+
+You can then go to the directory by typing
+
+#+BEGIN_SRC bash
+cd <directory_name
+#+END_SRC
+
+There you go!
+
+*Pro tip:* You can check the full path of the current directory you're on by typing *pwd*. This stand for print working directory.
+
+Now that you're in your directory, you can initialize git by typing
+
+#+BEGIN_SRC bash
+git init
+#+END_SRC
+
+And voila! You just made your first git repo!
+
+Wait, what just happened?
+
+When you execute the =git init= command, git creates a directory called =.git= in your directory. This is where git stores all the tools required to manage your files.
+** Checking your git status
+
+Now that you've created your repository, let me introduce you to a nifty lil command that can help figure out what's happening inside your directory.
+
+Just type
+
+#+BEGIN_SRC bash
+git status
+#+END_SRC
+
+If you did everything correctly, you'll get a message like this
+
+#+BEGIN_SRC bash
+On branch master
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
+#+END_SRC
+
+Now, lets add some files.
+** Adding files
+
+What is the point of having a git repository if there aren't any files? Exactly. So let's add files.
+
+You can add files just like you add them usually, by right clicking on the folder on Windows Explorer (I think that's what it's called on Windows) and adding a new file. Or if you want to do it the (cool) terminal way, you can use the =touch= command.
+
+*Pro tip*: Using the terminal is optional here, you can also do most of these operations like you usually do them.
+
+Here's how to add a file named =file1.txt=
+
+#+BEGIN_SRC bash
+touch file1.txt
+#+END_SRC
+
+if you notice, the terminal didn't give any output. This is because most of these commands follow the unix philosophy of only showing things that are required. If there is nothing to see, that means the command ran properly. You should only worry if you see something pop up.
+
+But how do I view the file? You can do it by typing the =ls= command, which is short for "list".
+
+You should be able to see the file(s) inside your directory listed below.
+
+If you remember correctly, when you initialize the directory with =git init=, I said a folder named =.git= is created inside your directory. Why isn't that not seen?
+
+It's because it's a hidden file. all files that start with a dot (.) are hidden. However, you can view them using the =ls --all= command.
+
+Anyway, let's check what's happening in our directory by typing =git status=
+
+#+BEGIN_SRC bash
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	file1.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+#+END_SRC
+
+As you can see, =file1.txt= is shown under untracked files. This is because git doesn't track any files by default. Now that's stupid, right? Not really. This way, you can have more control over what file gets tracked and what file doesn't. This is very useful if you want to store secret keys or other temporary files that doesn't make sense to track.
+
+So how do we add them?
+
+By using the =git add= command
+
+#+BEGIN_SRC bash
+git add file1.txt
+#+ENd_SRC
+
+Now if you type =git-status= you'll see this.
+
+#+BEGIN_SRC bash
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+	new file:   file1.txt
+#+END_SRC
+
+Congrats, you've added the file. Now, git can track all the changes that happen to this file.
+
+*Pro tip:* You can add multiple files by seperating them with a space. If you want to add all the files, you can use =git add *=.
+
+** Committing files
+
+Alright. Now that Git is tracking the file, let's see it in action, shall we?
+
+Open the file in your preferred editor (vim, notepad, etc) and add some text. I'm going to add "Hello world" to it.
+
+Now that you made changes to the file, it should be shown with the =git status= command, right? Let's see.
+
+#+BEGIN_SRC bash
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+	new file:   file1.txt
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   file1.txt
+#+END_SRC
+
+As you can see, file 1 is now shown under =new file= and =modified=. This is because, the file has been modified since the last time we executed =git add=. This provides some basic level of monitoring, but git can go way more than that.
+
+You can create save points that can be referenced later on using the =git commit= command.
+
+#+BEGIN_SRC bash
+git commit -am "This is my first commit"
+#+end_SRC
+
+*Pro tip;* The -am commands are optional. -a is for performing git add and -m is for typing a commit message (as done above). Always make sure the message is within double quotes.
+
+And there you go. You made your first commit! Way to go!
+
+You can see your commit logs by typing =git log=. You'll get something like this.
+
+#+BEGIN_SRC bash
+commit 281dbbd4b8ef7e1b4650c836c8c809159428b01f (HEAD -> master)
+Author: paul <pauljoshyk@gmail.com>
+Date:   Sat Dec 2 00:08:45 2023 +0530
+
+    First commit
+#+end_src
+
+*Pro tip:* Every commit has a long hash number attached to it. =281dbbd4b8ef7e1b4650c836c8c809159428b01f= in this case. This is a unique identifier that helps track your history without worrying about duplicates.
+
+And there you go! You have completed your first lesson!
+
+** Clone this repo
+
+Git allows you to create a copy of any project in your local system, or anywhere else. But these aren't just copies. We'll get to that in a bit.
+
+With git, you can clone any git project in the world, if it's accessible to you, including this one.
+
+To clone this repository, you can use the =git clone= command.
+
+#+BEGIN_SRC bash
+git clone <url>
+#+END_SRC
+
+to clone this repo, type the following into your command line
+
+#+BEGIN_SRC bash
+git clone https://github.com/Paul-Joshy/git-tutorial
+#+END_SRC
+
+Once it's cloned, git will create a directory called =git-tutorial= in your system. You can then go to the folder by typing
+
+#+BEGIN_SRC bash
+cd git-tutorial
+#+END_SRC

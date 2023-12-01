@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Git tutorial</title>
+<!-- 2023-12-02 Sat 00:12 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="Org-mode">
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<style>
+/* org mode styles on top of twbs */
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font-size: 18px;
+    margin-bottom: 105px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 101px;
+    background-color: #f5f5f5;
+}
+
+footer > div {
+    padding: 10px;
+}
+
+footer p {
+    margin: 0 0 5px;
+    text-align: center;
+    font-size: 16px;
+}
+
+#table-of-contents {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+blockquote p {
+    font-size: 18px;
+}
+
+pre {
+    font-size: 16px;
+}
+
+.footpara {
+    display: inline-block;
+}
+
+figcaption {
+  font-size: 16px;
+  color: #666;
+  font-style: italic;
+  padding-bottom: 15px;
+}
+
+/* from twbs docs */
+
+.bs-docs-sidebar.affix {
+    position: static;
+}
+@media (min-width: 768px) {
+    .bs-docs-sidebar {
+        padding-left: 20px;
+    }
+}
+
+/* All levels of nav */
+.bs-docs-sidebar .nav > li > a {
+    display: block;
+    padding: 4px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #999;
+}
+.bs-docs-sidebar .nav > li > a:hover,
+.bs-docs-sidebar .nav > li > a:focus {
+    padding-left: 19px;
+    color: #A1283B;
+    text-decoration: none;
+    background-color: transparent;
+    border-left: 1px solid #A1283B;
+}
+.bs-docs-sidebar .nav > .active > a,
+.bs-docs-sidebar .nav > .active:hover > a,
+.bs-docs-sidebar .nav > .active:focus > a {
+    padding-left: 18px;
+    font-weight: bold;
+    color: #A1283B;
+    background-color: transparent;
+    border-left: 2px solid #A1283B;
+}
+
+/* Nav: second level (shown on .active) */
+.bs-docs-sidebar .nav .nav {
+    display: none; /* Hide by default, but at >768px, show it */
+    padding-bottom: 10px;
+}
+.bs-docs-sidebar .nav .nav > li > a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 30px;
+    font-size: 12px;
+    font-weight: normal;
+}
+.bs-docs-sidebar .nav .nav > li > a:hover,
+.bs-docs-sidebar .nav .nav > li > a:focus {
+    padding-left: 29px;
+}
+.bs-docs-sidebar .nav .nav > .active > a,
+.bs-docs-sidebar .nav .nav > .active:hover > a,
+.bs-docs-sidebar .nav .nav > .active:focus > a {
+    padding-left: 28px;
+    font-weight: 500;
+}
+
+/* Nav: third level (shown on .active) */
+.bs-docs-sidebar .nav .nav .nav {
+    padding-bottom: 10px;
+}
+.bs-docs-sidebar .nav .nav .nav > li > a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 40px;
+    font-size: 12px;
+    font-weight: normal;
+}
+.bs-docs-sidebar .nav .nav .nav > li > a:hover,
+.bs-docs-sidebar .nav .nav .nav > li > a:focus {
+    padding-left: 39px;
+}
+.bs-docs-sidebar .nav .nav .nav > .active > a,
+.bs-docs-sidebar .nav .nav .nav > .active:hover > a,
+.bs-docs-sidebar .nav .nav .nav > .active:focus > a {
+    padding-left: 38px;
+    font-weight: 500;
+}
+
+/* Show and affix the side nav when space allows it */
+@media (min-width: 992px) {
+    .bs-docs-sidebar .nav > .active > ul {
+        display: block;
+    }
+    /* Widen the fixed sidebar */
+    .bs-docs-sidebar.affix,
+    .bs-docs-sidebar.affix-bottom {
+        width: 213px;
+    }
+    .bs-docs-sidebar.affix {
+        position: fixed; /* Undo the static from mobile first approach */
+        top: 20px;
+    }
+    .bs-docs-sidebar.affix-bottom {
+        position: absolute; /* Undo the static from mobile first approach */
+    }
+    .bs-docs-sidebar.affix .bs-docs-sidenav,.bs-docs-sidebar.affix-bottom .bs-docs-sidenav {
+        margin-top: 0;
+        margin-bottom: 0
+    }
+}
+@media (min-width: 1200px) {
+    /* Widen the fixed sidebar again */
+    .bs-docs-sidebar.affix-bottom,
+    .bs-docs-sidebar.affix {
+        width: 263px;
+    }
+}
+</style>
+<script>
+$(function() {
+    'use strict';
+
+    $('.bs-docs-sidebar li').first().addClass('active');
+
+    $(document.body).scrollspy({target: '.bs-docs-sidebar'});
+
+    $('.bs-docs-sidebar').affix();
+});
+</script>
+</head>
+<body>
+<div id="content" class="container">
+<div class="row"><div class="col-md-3 col-md-push-9"><nav id="table-of-contents">
+<div id="text-table-of-contents" class="bs-docs-sidebar">
+<ul class="nav">
+<li><a href="#sec-1">1. Lesson 1</a>
+<ul class="nav">
+<li><a href="#sec-1-1">1.1. Introduction</a></li>
+<li><a href="#sec-1-2">1.2. Installation and Setup</a></li>
+<li><a href="#sec-1-3">1.3. Creating your first git repository</a></li>
+<li><a href="#sec-1-4">1.4. Checking your git status</a></li>
+<li><a href="#sec-1-5">1.5. Adding files</a></li>
+<li><a href="#sec-1-6">1.6. Committing files</a></li>
+<li><a href="#sec-1-7">1.7. Clone this repo</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+</div><div class="col-md-9 col-md-pull-3"><h1 class="title">Git tutorial</h1>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Lesson 1</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Introduction</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Git is a tool built to manage different versions of your code, but it can do way more than that. But it all starts from knowing these basic terms.
+</p>
+
+<p>
+<b>Directory:</b> This is how nerds call folders on your computer.
+</p>
+
+<p>
+<b>Git Repository:</b> This is a Directory that is maintained by git. It can also be called as a repo.
+</p>
+
+<p>
+<b>Command-line</b>: This is where you you type your git commands. Although there are slight differences, people also use the term <b>terminal</b>, <b>shell</b>, <b>command-prompt</b> interchangeably for the same thing. In windows, you can use Command Prompt, Powershell, or the git bash to execute these commands.
+</p>
+
+
+<p>
+Alright that should do for now. It&rsquo;s time to get your hands dirty!
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Installation and Setup</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Git can be installed on most operating systems including Linux, MacOS and Windows.
+</p>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Windows</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+You can download it from the <a href="https://git-scm.com/download/win">Official website</a>.
+</p>
+
+<p>
+Here&rsquo;s a good <a href="https://www.youtube.com/watch?v=2j7fD92g-gE">turorial</a> that&rsquo;ll help you with the installation if you&rsquo;re stuck.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Creating your first git repository</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Now that we have our git set up, it&rsquo;s time to create your first repository.
+</p>
+
+<p>
+You can go to an existing directory or create a new one by typing
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #ECBE7B;">mkdir</span> &lt;directory_name
+</pre>
+</div>
+
+<p>
+You can then go to the directory by typing
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #ECBE7B;">cd</span> &lt;directory_name
+</pre>
+</div>
+
+<p>
+There you go!
+</p>
+
+<p>
+<b>Pro tip:</b> You can check the full path of the current directory you&rsquo;re on by typing <b>pwd</b>. This stand for print working directory.
+</p>
+
+<p>
+Now that you&rsquo;re in your directory, you can initialize git by typing
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #ECBE7B;">git</span> init
+</pre>
+</div>
+
+<p>
+And voila! You just made your first git repo!
+</p>
+
+<p>
+Wait, what just happened?
+</p>
+
+<p>
+When you execute the <code>git init</code> command, git creates a directory called <code>.git</code> in your directory. This is where git stores all the tools required to manage your files.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Checking your git status</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Now that you&rsquo;ve created your repository, let me introduce you to a nifty lil command that can help figure out what&rsquo;s happening inside your directory.
+</p>
+
+<p>
+Just type
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #ECBE7B;">git</span> status
+</pre>
+</div>
+
+<p>
+If you did everything correctly, you&rsquo;ll get a message like this
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">On branch master
+
+No commits yet
+
+nothing to commit <span style="color: #51afef;">(</span>create/copy files and use <span style="color: #98be65;">"</span><span style="color: #98be65;">git</span><span style="color: #98be65;"> add"</span> to track<span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+<p>
+Now, lets add some files.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Adding files</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+What is the point of having a git repository if there aren&rsquo;t any files? Exactly. So let&rsquo;s add files.
+</p>
+
+<p>
+You can add files just like you add them usually, by right clicking on the folder on Windows Explorer (I think that&rsquo;s what it&rsquo;s called on Windows) and adding a new file. Or if you want to do it the (cool) terminal way, you can use the <code>touch</code> command.
+</p>
+
+<p>
+<b>Pro tip</b>: Using the terminal is optional here, you can also do most of these operations like you usually do them.
+</p>
+
+<p>
+Here&rsquo;s how to add a file named <code>file1.txt</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #ECBE7B;">touch</span> file1.txt
+</pre>
+</div>
+
+<p>
+if you notice, the terminal didn&rsquo;t give any output. This is because most of these commands follow the unix philosophy of only showing things that are required. If there is nothing to see, that means the command ran properly. You should only worry if you see something pop up.
+</p>
+
+<p>
+But how do I view the file? You can do it by typing the <code>ls</code> command, which is short for &ldquo;list&rdquo;.
+</p>
+
+<p>
+You should be able to see the file(s) inside your directory listed below.
+</p>
+
+<p>
+If you remember correctly, when you initialize the directory with <code>git init</code>, I said a folder named <code>.git</code> is created inside your directory. Why isn&rsquo;t that not seen?
+</p>
+
+<p>
+It&rsquo;s because it&rsquo;s a hidden file. all files that start with a dot (.) are hidden. However, you can view them using the <code>ls --all</code> command.
+</p>
+
+<p>
+Anyway, let&rsquo;s check what&rsquo;s happening in our directory by typing <code>git status</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">On branch master
+
+No commits yet
+
+Untracked files:
+  <span style="color: #51afef;">(</span>use <span style="color: #98be65;">"</span><span style="color: #98be65;">git</span><span style="color: #98be65;"> add &lt;file&gt;..."</span> to include<span style="color: #51afef;"> in</span> what will be committed<span style="color: #51afef;">)</span>
+    file1.txt
+
+nothing added to commit but untracked files present <span style="color: #51afef;">(</span>use <span style="color: #98be65;">"</span><span style="color: #98be65;">git</span><span style="color: #98be65;"> add"</span> to track<span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+<p>
+As you can see, <code>file1.txt</code> is shown under untracked files. This is because git doesn&rsquo;t track any files by default. Now that&rsquo;s stupid, right? Not really. This way, you can have more control over what file gets tracked and what file doesn&rsquo;t. This is very useful if you want to store secret keys or other temporary files that doesn&rsquo;t make sense to track.
+</p>
+
+<p>
+So how do we add them?
+</p>
+
+<p>
+By using the <code>git add</code> command
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #ECBE7B;">git</span> add file1.txt
+</pre>
+</div>
+
+<p>
+Now if you type <code>git-status</code> you&rsquo;ll see this.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">On branch master
+
+No commits yet
+
+Changes to be committed:
+  <span style="color: #51afef;">(</span>use <span style="color: #98be65;">"</span><span style="color: #98be65;">git</span><span style="color: #98be65;"> </span><span style="color: #98be65;">rm</span><span style="color: #98be65;"> --cached &lt;file&gt;..."</span> to unstage<span style="color: #51afef;">)</span>
+    new file:   file1.txt
+</pre>
+</div>
+
+<p>
+Congrats, you&rsquo;ve added the file. Now, git can track all the changes that happen to this file.
+</p>
+
+<p>
+<b>Pro tip:</b> You can add multiple files by seperating them with a space. If you want to add all the files, you can use <code>git add *</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Committing files</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+Alright. Now that Git is tracking the file, let&rsquo;s see it in action, shall we?
+</p>
+
+<p>
+Open the file in your preferred editor (vim, notepad, etc) and add some text. I&rsquo;m going to add &ldquo;Hello world&rdquo; to it.
+</p>
+
+<p>
+Now that you made changes to the file, it should be shown with the <code>git status</code> command, right? Let&rsquo;s see.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">On branch master
+
+No commits yet
+
+Changes to be committed:
+  <span style="color: #51afef;">(</span>use <span style="color: #98be65;">"</span><span style="color: #98be65;">git</span><span style="color: #98be65;"> </span><span style="color: #98be65;">rm</span><span style="color: #98be65;"> --cached &lt;file&gt;..."</span> to unstage<span style="color: #51afef;">)</span>
+    new file:   file1.txt
+
+Changes not staged for commit:
+  <span style="color: #51afef;">(</span>use <span style="color: #98be65;">"</span><span style="color: #98be65;">git</span><span style="color: #98be65;"> add &lt;file&gt;..."</span> to update what will be committed<span style="color: #51afef;">)</span>
+  <span style="color: #51afef;">(</span>use <span style="color: #98be65;">"</span><span style="color: #98be65;">git</span><span style="color: #98be65;"> restore &lt;file&gt;..."</span> to discard changes<span style="color: #51afef;"> in</span> working directory<span style="color: #51afef;">)</span>
+    modified:   file1.txt
+</pre>
+</div>
+
+<p>
+As you can see, file 1 is now shown under <code>new file</code> and <code>modified</code>. This is because, the file has been modified since the last time we executed <code>git add</code>. This provides some basic level of monitoring, but git can go way more than that.
+</p>
+
+<p>
+You can create save points that can be referenced later on using the <code>git commit</code> command.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #ECBE7B;">git</span> commit -am <span style="color: #98be65;">"This is my first commit"</span>
+</pre>
+</div>
+
+<p>
+<b>Pro tip;</b> The -am commands are optional. -a is for performing git add and -m is for typing a commit message (as done above). Always make sure the message is within double quotes.
+</p>
+
+<p>
+And there you go. You made your first commit! Way to go!
+</p>
+
+<p>
+You can see your commit logs by typing <code>git log</code>. You&rsquo;ll get something like this.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">commit 281dbbd4b8ef7e1b4650c836c8c809159428b01f <span style="color: #51afef;">(</span>HEAD -&gt; master<span style="color: #51afef;">)</span>
+Author: paul <a href="mailto:pauljoshyk%40gmail.com">&lt;pauljoshyk@gmail.com&gt;</a>
+Date:   Sat Dec <span style="color: #da8548; font-weight: bold;">2</span> 00:08:45 <span style="color: #da8548; font-weight: bold;">2023</span> +0530
+
+    First commit
+</pre>
+</div>
+
+<p>
+<b>Pro tip:</b> Every commit has a long hash number attached to it. <code>281dbbd4b8ef7e1b4650c836c8c809159428b01f</code> in this case. This is a unique identifier that helps track your history without worrying about duplicates.
+</p>
+
+<p>
+And there you go! You have completed your first lesson!
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> Clone this repo</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+Git allows you to create a copy of any project in your local system, or anywhere else. But these aren&rsquo;t just copies. We&rsquo;ll get to that in a bit.
+</p>
+
+<p>
+With git, you can clone any git project in the world, if it&rsquo;s accessible to you, including this one.
+</p>
+
+<p>
+To clone this repository, you can use the <code>git clone</code> command.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #ECBE7B;">git</span> clone &lt;url&gt;
+</pre>
+</div>
+
+<p>
+to clone this repo, type the following into your command line
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #ECBE7B;">git</span> clone https://github.com/Paul-Joshy/git-tutorial
+</pre>
+</div>
+
+<p>
+Once it&rsquo;s cloned, git will create a directory called <code>git-tutorial</code> in your system. You can then go to the folder by typing
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #ECBE7B;">cd</span> git-tutorial
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div></div></div>
+<footer id="postamble" class="">
+<div><p class="date">Created: 2023-12-02 Sat 00:12</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 29.1 (<a href="http://orgmode.org">Org-mode</a> 9.7)</p>
+</div>
+</footer>
+</body>
+</html>
